@@ -1,10 +1,16 @@
+// -------------------
 // '/register' - POST: create user
+// -------------------
 const handleRegister = (req, res, db, bcrypt, saltRounds) => {
   console.log("app.post('/register', (req, res) =>{...");
-  const { name, email, password } = req.body;
+  const {name, email, password} = req.body;
   console.log("req.body.name:", name);
   console.log("req.body.email:", email);
   console.log("req.body.password:", password);
+  if (!email || !name || !password) {
+    console.log('Register failed - incorrect form submission.');
+    return res.status(400).json('incorrect form submission.');
+  }
 
   let user = {
     id: null,

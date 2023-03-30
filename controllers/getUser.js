@@ -1,6 +1,6 @@
-// '/profile/:id' - GET: get user
-//
-// NB: for dev only. Remove for production.
+// -------------------
+// '/user/:id' - GET: get user - Dev only, would normally remove for production.
+// -------------------
 const handleGetUser = (req, res, db) => {
   const {id} = req.params;
   db.select("*")

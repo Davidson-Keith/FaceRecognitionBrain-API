@@ -1,4 +1,6 @@
+// -------------------
 // '/signin' - POST: (post to hide password via https). success/fail
+// -------------------
 // NB: The following two options do the exact same thing (requiring a different function signature for calling
 // signIn.handleSignIn(...)
 // A function with 3 parameters, calling a function with 2 parameters??? Confusing.
@@ -6,13 +8,17 @@
 // Or, a function with 5 parameters. I find this version far easier to read and understand.
 const handleSignIn = (req, res, db, bcrypt, saltRounds) => {
   console.log("app.post('/signin', (req, res) =>{...");
-  const { email, password } = req.body;
+  const {email, password} = req.body;
   console.log("req.body.email:", email);
   console.log("req.body.password:", password);
+  if (!email || !password) {
+    console.log('Sign in failed - incorrect form submission.');
+    return res.status(400).json('incorrect form submission.');
+  }
 
   db.select("email", "hash")
     .from("logins")
-    .where({ email })
+    .where({email})
     .then((data) => {
       console.log("data:", data);
       if (data.length) {
@@ -27,7 +33,7 @@ const handleSignIn = (req, res, db, bcrypt, saltRounds) => {
             return db
               .select("*")
               .from("users")
-              .where({ email })
+              .where({email})
               .then((data) => {
                 console.log("/signin - login success:", data[0]);
                 res.json(data[0]);

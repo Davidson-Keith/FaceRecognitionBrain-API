@@ -1,9 +1,11 @@
+// -------------------
 // '/updateEntriesCount' - PUT: update user entries count
+// -------------------
 const handleUpdateEntriesCount = (req, res, db) => {
-  const { id } = req.body;
+  const {id} = req.body;
   db("users")
-    .where({ id })
-    .increment({ entries: 1 })
+    .where({id})
+    .increment({entries: 1})
     .returning("*")
     .then((user) => {
       if (user.length) {

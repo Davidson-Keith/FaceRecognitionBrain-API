@@ -65,12 +65,16 @@ const db = knex({
 //
 // -------------------
 
-// '/' - GET: log full db contents [for dev only???]
+// -------------------
+// '/' - GET: log full db contents  - Dev only, would normally remove for production.
+// -------------------
 app.get("/", (req, res) => {
   res.send(db);
 });
 
+// -------------------
 // '/signin' - POST: (post to hide password via https). success/fail
+// -------------------
 // NB: The following two options do the exact same thing (requiring a different function signature for signIn.handleSignIn(...)
 // A function with implied req, res parameters??? Not sure.
 // app.post("/signin", signIn.handleSignIn(db, bcrypt, saltRounds));
@@ -78,17 +82,23 @@ app.post("/signin", (req, res) => {
   signIn.handleSignIn(req, res, db, bcrypt, saltRounds);
 });
 
+// -------------------
 // '/register' - POST: create user
+// -------------------
 app.post("/register", (req, res) => {
   register.handleRegister(req, res, db, bcrypt, saltRounds)
 });
 
-// '/profile/:id' - GET: get user
-app.get("/profile/:id", (req, res) => {
+// -------------------
+// '/user/:id' - GET: get user - Dev only, would normally remove for production.
+// -------------------
+app.get("/user/:id", (req, res) => {
   getUser.handleGetUser(req, res, db);
 });
 
+// -------------------
 // '/updateEntriesCount' - PUT: update user entries count
+// -------------------
 app.put("/updateEntriesCount", (req, res) => {
   updateEntriesCount.handleUpdateEntriesCount(req, res, db);
 });
