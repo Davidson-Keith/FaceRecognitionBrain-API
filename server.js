@@ -3,8 +3,10 @@
 // '/' - GET: log full db contents
 // '/signin' - POST: (post to hide password via https). success/fail
 // '/register' - POST: create user
-// '/profile/:userid' - GET: get user
+// '/user/:userid' - GET: get user
 // '/updateEntriesCount' - PUT: update user entries count
+// '/imageURL' - POST: run Clarifai model
+
 
 const express = require("express");
 const bcrypt = require("bcrypt");
@@ -15,8 +17,8 @@ const {response} = require("express");
 // const dbLib = require('./db/dbLib');
 const register = require('./controllers/register');
 const signIn = require('./controllers/signIn');
-const getUser = require('./controllers/getUser')
-const updateEntriesCount = require('./controllers/updateEntriesCount');
+const user = require('./controllers/user')
+const image = require('./controllers/image');
 
 const saltRounds = 10; // for bcrypt
 
@@ -90,18 +92,25 @@ app.post("/register", (req, res) => {
 });
 
 // -------------------
-// '/user/:id' - GET: get user - Dev only, would normally remove for production.
+// '/user/:id' - GET: get user
 // -------------------
 app.get("/user/:id", (req, res) => {
-  getUser.handleGetUser(req, res, db);
+  user.handleGetUser(req, res, db);
 });
 
 // -------------------
 // '/updateEntriesCount' - PUT: update user entries count
 // -------------------
 app.put("/updateEntriesCount", (req, res) => {
-  updateEntriesCount.handleUpdateEntriesCount(req, res, db);
+  image.handleUpdateEntriesCount(req, res, db);
 });
+
+// -------------------
+// '/imageURL' - POST: run Clarifai model
+// -------------------
+app.post("/imageURL", (req, res) => {
+  image.handleImageURL(req, res);
+})
 
 
 // const user = db.getUserByEmail(req.body.email);

@@ -75,5 +75,5 @@ const handleRegister = (req, res, db, bcrypt, saltRounds) => {
 };
 
 module.exports = {
-  handleRegister: handleRegister
+  handleRegister
 }

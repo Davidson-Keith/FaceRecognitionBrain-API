@@ -21,5 +21,5 @@ const handleGetUser = (req, res, db) => {
 }
 
 module.exports = {
-  handleGetUser: handleGetUser
+  handleGetUser
 }
