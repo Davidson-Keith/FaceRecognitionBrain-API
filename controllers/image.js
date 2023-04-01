@@ -3,38 +3,11 @@
 // -------------------
 
 // const clarifai = require('clarifai');
+const {ClarifaiStub, grpc} = require("clarifai-nodejs-grpc");
 
-const USER_ID = "chengis";
-// Your PAT (Personal Access Token) can be found in the portal under Authentification
-const PAT = "b6489c5155df49bc9ed8f81eb64d532d";
-const APP_ID = "facebrain";
+// required by gRPC API
+const API_KEY = "231b8ec4486a4049b7e8ecf4a001280f";
 const MODEL_ID = "face-detection";
-// const Model = Clarifai.FACE_DETECT_MODEL; // This is NOT the Model ID???
-// console.log("Model: ", Model);
-// const MODEL_VERSION_ID = "45fb9a671625463fa646c3523a3087d5";
-// const IMAGE_URL = "https://samples.clarifai.com/metro-north.jpg";
-// const IMAGE_URL = this.state.imageInput;
-
-const handleUpdateEntriesCount = (req, res, db) => {
-  const {id} = req.body;
-  db("users")
-    .where({id})
-    .increment({entries: 1})
-    .returning("*")
-    .then((user) => {
-      if (user.length) {
-        console.log(user[0]);
-        res.json(user[0]);
-      } else {
-        res.status(400).json("Not found");
-      }
-    })
-    .catch((err) => {
-      console.log("app.put - /updateEntriesCount - err:", err);
-      res.status(400).json("unable to set entries");
-    });
-}
-
 
 // samples:
 // https://purneauniversity.org/wp-content/uploads/2022/12/JC-.png
@@ -42,8 +15,49 @@ const handleUpdateEntriesCount = (req, res, db) => {
 // https://media.vanityfair.com/photos/615478afc1d17015c14bd905/master/pass/no-time-to-die-film-still-01.jpg
 // https://samples.clarifai.com/metro-north.jpg
 
+const handleImageURLgRPC = (req, res) => {
+  console.log("image.handleImageURLgRPC(req, res)");
+  const {url} = req.body;
+  console.log("req.body.url:", url);
+
+  const stub = ClarifaiStub.grpc();
+  const metadata = new grpc.Metadata();
+  metadata.set("authorization", "Key " + API_KEY);
+
+  stub.PostModelOutputs(
+    {
+      // This is the model ID of a publicly available General model. You may use any other public or custom model ID.
+      model_id: MODEL_ID,
+      inputs: [{data: {image: {url: url}}}]
+    },
+    metadata,
+    (err, response) => {
+      if (err) {
+        console.log("Error: " + err);
+        res.status(400).json("Unable to process image" + err);
+        return;
+      }
+      if (response.status.code !== 10000) {
+        console.log("Received failed status: " + response.status.description + "\n" + response.status.details);
+        res.status(400).json("Unable to process image: " + response.status.description + "\n" + response.status.details);
+        return;
+      }
+      console.log('response:', response);
+      res.send(response);
+    }
+  );
+}
+
+
+//required by JSON API - Deprecated.
+const USER_ID = "chengis";
+// Your PAT (Personal Access Token) can be found in the portal under Authentification
+const PAT = "b6489c5155df49bc9ed8f81eb64d532d";
+const APP_ID = "facebrain";
+// const MODEL_VERSION_ID = "45fb9a671625463fa646c3523a3087d5";
+
 const handleImageURL = (req, res) => {
-  console.log("handleImageURL(req, res) =>{...");
+  console.log("image.handleImageURL(req, res)");
   const {url} = req.body;
   console.log("req.body.url:", url);
 
@@ -88,12 +102,34 @@ const handleImageURL = (req, res) => {
     .then((result) => res.send(result))
     .catch((error) => {
       console.log("handleImageURL - unable to process image:", error)
-      res.status(400).json("unable to process image");
+      res.status(400).json("unable to process image: " + error);
     });
 }
 
 
+const handleUpdateEntriesCount = (req, res, db) => {
+  console.log("image.handleUpdateEntriesCount(req, res, db)");
+  const {id} = req.body;
+  db("users")
+    .where({id})
+    .increment({entries: 1})
+    .returning("*")
+    .then((user) => {
+      if (user.length) {
+        console.log(user[0]);
+        res.json(user[0]);
+      } else {
+        res.status(400).json("Not found");
+      }
+    })
+    .catch((err) => {
+      console.log("app.put - /updateEntriesCount - err:", err);
+      res.status(400).json("Unable to set entries: " + err);
+    });
+}
+
 module.exports = {
   handleUpdateEntriesCount,
-  handleImageURL
+  handleImageURL,
+  handleImageURLgRPC
 }

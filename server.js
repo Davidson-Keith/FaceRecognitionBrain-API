@@ -109,7 +109,8 @@ app.put("/updateEntriesCount", (req, res) => {
 // '/imageURL' - POST: run Clarifai model
 // -------------------
 app.post("/imageURL", (req, res) => {
-  image.handleImageURL(req, res);
+  // image.handleImageURL(req, res); // deprecated.
+  image.handleImageURLgRPC(req, res);
 })
 
 
