@@ -83,7 +83,8 @@ const handleImageURL = (req, res) => {
     "/outputs",
     requestOptions
   )
-    .then((response) => response.text())
+    .then(data => data.json())
+    // .then((response) => response.text())
     .then((result) => res.send(result))
     .catch((error) => {
       console.log("handleImageURL - unable to process image:", error)
