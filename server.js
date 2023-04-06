@@ -71,7 +71,8 @@ const db = knex({
 // '/' - GET: log full db contents  - Dev only, would normally remove for production.
 // -------------------
 app.get("/", (req, res) => {
-  res.send(db);
+  // res.send(db);
+  res.send("yep it's on...");
 });
 
 // -------------------
