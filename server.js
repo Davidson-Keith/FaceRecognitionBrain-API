@@ -52,13 +52,20 @@ const db = knex({
   client: "pg",
   version: "7.2",
   connection: {
-    host: "127.0.0.1",
-    port: 5432,
-    user: "dadthelad",
+    host: "postgresql-clear-25101",
+    user: "surfingsanta",
     password: "",
     database: "smart-brain",
   },
 });
+// localhost:
+// host: "127.0.0.1",
+// port: 5432,
+// user: "dadthelad",
+
+// heroku db url:
+// host: "postgresql-clear-25101",
+// user: "surfingsanta", - my github user
 
 
 // -------------------
