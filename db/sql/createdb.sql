@@ -9,7 +9,7 @@ create table if not exists users (
   created_when timestamp default current_timestamp
 );
 
-create table if not exists logins(
+create table if not exists logins (
   user_id int not null,
   hash varchar(100) not null,
   email text unique not null,
