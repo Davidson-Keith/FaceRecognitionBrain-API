@@ -48,24 +48,27 @@ console.log(process.env);
 // });
 
 // alternate explicit connection setup
-const db = knex({
+const localhostKnexConfig = {
   client: "pg",
   version: "7.2",
   connection: {
-    host: "postgresql-clear-25101",
-    user: "surfingsanta",
+    host: "127.0.0.1",
+    port: 5432,
+    user: "dadthelad",
     password: "",
     database: "smart-brain",
-  },
-});
-// localhost:
-// host: "127.0.0.1",
-// port: 5432,
-// user: "dadthelad",
+  }
+};
 
-// heroku db url:
-// host: "postgresql-clear-25101",
-// user: "surfingsanta", - my github user
+const herokuKnexConfig = {
+  client: "pg",
+  connection: {
+    host: process.env.DATABASE_URL,
+    ssl: true,
+  },
+}
+
+const db = knex(herokuKnexConfig);
 
 
 // -------------------
