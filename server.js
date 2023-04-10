@@ -66,8 +66,9 @@ const herokuKnexConfig = {
     connectionString: process.env.DATABASE_URL,
   },
 }
-// ssl: true,
-// ssl: {rejectUnauthorized: false},
+// ssl error solved by removing the ssl line from the connection, as heroku does this all by itself correctly.
+// ssl: true, // causes error
+// ssl: {rejectUnauthorized: false}, // solves, but insecure.
 
 const db = knex(herokuKnexConfig);
 
