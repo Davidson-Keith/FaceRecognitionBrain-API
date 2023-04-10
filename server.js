@@ -64,9 +64,10 @@ const herokuKnexConfig = {
   client: "pg",
   connection: {
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
+    ssl: {rejectUnauthorized: false},
   },
 }
+// ssl: true,
 
 const db = knex(herokuKnexConfig);
 
