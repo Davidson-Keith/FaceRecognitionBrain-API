@@ -2,7 +2,7 @@
 // '/register' - POST: create user
 // -------------------
 const handleRegister = (req, res, db, bcrypt, saltRounds) => {
-  console.log("app.post('/register', (req, res) =>{...");
+  console.log("register.handleRegister = (req, res, db, bcrypt, saltRounds)")
   const {name, email, password} = req.body;
   console.log("req.body.name:", name);
   console.log("req.body.email:", email);

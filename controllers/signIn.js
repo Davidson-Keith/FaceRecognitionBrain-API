@@ -6,8 +6,8 @@
 // A function with 3 parameters, calling a function with 2 parameters??? Confusing.
 // const handleSignIn = (db, bcrypt, saltRounds) => (req, res) => {
 // Or, a function with 5 parameters. I find this version far easier to read and understand.
-const handleSignIn = (req, res, db, bcrypt, saltRounds) => {
-  console.log("app.post('/signin', (req, res) =>{...");
+const handleSignIn = (req, res, db, bcrypt) => {
+  console.log("signIn.handleSignIn = (req, res, db, bcrypt)")
   const {email, password} = req.body;
   console.log("req.body.email:", email);
   console.log("req.body.password:", password);

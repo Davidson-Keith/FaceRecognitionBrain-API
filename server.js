@@ -1,12 +1,14 @@
-// 309. /signin and /register
+/*
+'/' - GET: log full db contents
+'/signin' - POST: (post to hide password via https). success/fail
+'/register' - POST: create user
+'/user/:userid' - GET: get user
+'/updateEntriesCount' - PUT: update user entries count
+'/imageURL' - POST: run Clarifai model
+*/
 
-// '/' - GET: log full db contents
-// '/signin' - POST: (post to hide password via https). success/fail
-// '/register' - POST: create user
-// '/user/:userid' - GET: get user
-// '/updateEntriesCount' - PUT: update user entries count
-// '/imageURL' - POST: run Clarifai model
-
+require('dotenv').config()
+// console.log(process.env) // remove this after you've confirmed it is working
 
 const express = require("express");
 const bcrypt = require("bcrypt");
@@ -40,37 +42,13 @@ console.log(process.env);
 //
 // -------------------
 
-// connection setup - doesn't work without setting up the env variable?
-// const postgres = knex({
-//   client: "pg",
-//   connection: process.env.PG_CONNECTION_STRING,
-//   searchPath: ["knex", "public"],
-// });
-
-// alternate explicit connection setup
-const localhostKnexConfig = {
-  client: "pg",
-  version: "7.2",
-  connection: {
-    host: "127.0.0.1",
-    port: 5432,
-    user: "dadthelad",
-    password: "",
-    database: "smart-brain",
-  }
-};
-
-const herokuKnexConfig = {
+const knexConfig = {
   client: "pg",
   connection: {
     connectionString: process.env.DATABASE_URL,
   },
 }
-// ssl error solved by removing the ssl line from the connection, as heroku does this all by itself correctly.
-// ssl: true, // causes error
-// ssl: {rejectUnauthorized: false}, // solves, but insecure.
-
-const db = knex(herokuKnexConfig);
+const db = knex(knexConfig);
 
 
 // -------------------
@@ -84,6 +62,7 @@ const db = knex(herokuKnexConfig);
 // -------------------
 app.get("/", (req, res) => {
   // res.send(db);
+  console.log("\napp.get('/', (req, res)=>{...})");
   res.send("yep it's on...");
 });
 
@@ -94,6 +73,7 @@ app.get("/", (req, res) => {
 // A function with implied req, res parameters??? Not sure.
 // app.post("/signin", signIn.handleSignIn(db, bcrypt, saltRounds));
 app.post("/signin", (req, res) => {
+  console.log("\napp.post('/signin', (req, res)=>{...})");
   signIn.handleSignIn(req, res, db, bcrypt, saltRounds);
 });
 
@@ -101,6 +81,7 @@ app.post("/signin", (req, res) => {
 // '/register' - POST: create user
 // -------------------
 app.post("/register", (req, res) => {
+  console.log("\napp.post('/register', (req, res)=>{...})");
   register.handleRegister(req, res, db, bcrypt, saltRounds)
 });
 
@@ -108,6 +89,7 @@ app.post("/register", (req, res) => {
 // '/user/:id' - GET: get user
 // -------------------
 app.get("/user/:id", (req, res) => {
+  console.log("\napp.get('/user/:id', (req, res)=>{...})");
   user.handleGetUser(req, res, db);
 });
 
@@ -115,6 +97,7 @@ app.get("/user/:id", (req, res) => {
 // '/updateEntriesCount' - PUT: update user entries count
 // -------------------
 app.put("/updateEntriesCount", (req, res) => {
+  console.log("\napp.put('/updateEntriesCount', (req, res)=>{...})");
   image.handleUpdateEntriesCount(req, res, db);
 });
 
@@ -122,7 +105,7 @@ app.put("/updateEntriesCount", (req, res) => {
 // '/imageURL' - POST: run Clarifai model
 // -------------------
 app.post("/imageURL", (req, res) => {
-  // image.handleImageURL(req, res); // deprecated.
+  console.log("\napp.post('/imageURL', (req, res)=>{...})");
   image.handleImageURLgRPC(req, res);
 })
 

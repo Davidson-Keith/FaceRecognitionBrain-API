@@ -2,6 +2,7 @@
 // '/user/:id' - GET: get user - Dev only, would normally remove for production.
 // -------------------
 const handleGetUser = (req, res, db) => {
+  console.log("user.handleGetUser = (req, res, db)")
   const {id} = req.params;
   db.select("*")
     .from("users")

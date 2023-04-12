@@ -6,14 +6,16 @@
 const {ClarifaiStub, grpc} = require("clarifai-nodejs-grpc");
 
 // required by gRPC API
-const API_KEY = "231b8ec4486a4049b7e8ecf4a001280f";
+const API_KEY = process.env.API_KEY_CLARIFAI;
 const MODEL_ID = "face-detection";
 
-// samples:
-// https://purneauniversity.org/wp-content/uploads/2022/12/JC-.png
-// https://www.oscars.org/sites/oscars/files/02_loren9.jpg
-// https://media.vanityfair.com/photos/615478afc1d17015c14bd905/master/pass/no-time-to-die-film-still-01.jpg
-// https://samples.clarifai.com/metro-north.jpg
+/*
+samples:
+https://purneauniversity.org/wp-content/uploads/2022/12/JC-.png
+https://www.oscars.org/sites/oscars/files/02_loren9.jpg
+https://media.vanityfair.com/photos/615478afc1d17015c14bd905/master/pass/no-time-to-die-film-still-01.jpg
+https://samples.clarifai.com/metro-north.jpg
+*/
 
 const handleImageURLgRPC = (req, res) => {
   console.log("image.handleImageURLgRPC(req, res)");
@@ -48,65 +50,6 @@ const handleImageURLgRPC = (req, res) => {
   );
 }
 
-
-//required by JSON API - Deprecated.
-const USER_ID = "chengis";
-// Your PAT (Personal Access Token) can be found in the portal under Authentification
-const PAT = "b6489c5155df49bc9ed8f81eb64d532d";
-const APP_ID = "facebrain";
-// const MODEL_VERSION_ID = "45fb9a671625463fa646c3523a3087d5";
-
-const handleImageURL = (req, res) => {
-  console.log("image.handleImageURL(req, res)");
-  const {url} = req.body;
-  console.log("req.body.url:", url);
-
-  const raw = JSON.stringify({
-    user_app_id: {
-      user_id: USER_ID,
-      app_id: APP_ID,
-    },
-    inputs: [
-      {
-        data: {
-          image: {
-            url: url,
-          },
-        },
-      },
-    ],
-  });
-
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      Authorization: "Key " + PAT,
-    },
-    body: raw,
-  };
-
-  // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
-  // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
-  // this will default to the latest version_id
-  fetch(
-    "https://api.clarifai.com/v2/models/" +
-    MODEL_ID +
-    // "/versions/" +
-    // MODEL_VERSION_ID +
-    "/outputs",
-    requestOptions
-  )
-    .then(data => data.json())
-    // .then((response) => response.text())
-    .then((result) => res.send(result))
-    .catch((error) => {
-      console.log("handleImageURL - unable to process image:", error)
-      res.status(400).json("unable to process image: " + error);
-    });
-}
-
-
 const handleUpdateEntriesCount = (req, res, db) => {
   console.log("image.handleUpdateEntriesCount(req, res, db)");
   const {id} = req.body;
@@ -130,6 +73,5 @@ const handleUpdateEntriesCount = (req, res, db) => {
 
 module.exports = {
   handleUpdateEntriesCount,
-  handleImageURL,
   handleImageURLgRPC
 }
