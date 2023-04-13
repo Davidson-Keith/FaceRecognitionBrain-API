@@ -10,14 +10,20 @@ const handleGetUser = (req, res, db) => {
     .then((user) => {
       if (user.length) {
         // console.log(user);
-        res.json(user[0]);
+        return res.json(user[0]);
       } else {
-        res.status(400).json("Not found");
+        return res.status(400).json({
+          success: false,
+          status: "User not found",
+        });
       }
     })
-    .catch((err) => {
-      console.log("app.get - /profile/:id - err:", err);
-      res.status(400).json("Error getting user");
+    .catch((error) => {
+      console.log("app.get - /profile/:id - error:", error);
+      return res.status(400).json({
+        success: false,
+        status: "Error getting user",
+      });
     });
 }
 

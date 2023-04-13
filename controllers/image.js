@@ -33,19 +33,25 @@ const handleImageURLgRPC = (req, res) => {
       inputs: [{data: {image: {url: url}}}]
     },
     metadata,
-    (err, response) => {
-      if (err) {
-        console.log("Error: " + err);
-        res.status(400).json("Unable to process image" + err);
-        return;
+    (modelError, modelResponse) => {
+      if (modelError) {
+        console.log("Error: " + modelError);
+        return res.status(400).json({
+          success: false,
+          status: "Unable to process image",
+          err: modelError,
+        });
       }
-      if (response.status.code !== 10000) {
-        console.log("Received failed status: " + response.status.description + "\n" + response.status.details);
-        res.status(400).json("Unable to process image: " + response.status.description + "\n" + response.status.details);
-        return;
+      if (modelResponse.status.code !== 10000) {
+        console.log("Received failed status: " + modelResponse.status.description + "\n" + modelResponse.status.details);
+        return res.status(400).json({
+          success: false,
+          status: "Unable to process image: " + modelResponse.status.description + "\n" + modelResponse.status.details,
+          err: modelError,
+        });
       }
-      console.log('response:', response);
-      res.send(response);
+      console.log('response:', modelResponse);
+      res.send(modelResponse);
     }
   );
 }
@@ -62,12 +68,20 @@ const handleUpdateEntriesCount = (req, res, db) => {
         console.log(user[0]);
         res.json(user[0]);
       } else {
-        res.status(400).json("Not found");
+        return res.status(400).json({
+          success: false,
+          status: "User not found",
+        });
       }
     })
-    .catch((err) => {
-      console.log("app.put - /updateEntriesCount - err:", err);
-      res.status(400).json("Unable to set entries: " + err);
+    .catch((error) => {
+      console.log("app.put - /updateEntriesCount - err:", error);
+      res.status(400).json("Unable to set entries: " + error);
+      return res.status(400).json({
+        success: false,
+        status: "Unable to set entries.",
+        err: error,
+      });
     });
 }
 

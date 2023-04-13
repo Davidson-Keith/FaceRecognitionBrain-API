@@ -9,7 +9,10 @@ const handleRegister = (req, res, db, bcrypt, saltRounds) => {
   console.log("req.body.password:", password);
   if (!email || !name || !password) {
     console.log('Register failed - incorrect form submission.');
-    return res.status(400).json('incorrect form submission.');
+    return res.status(400).json({
+      success: false,
+      status: "Incorrect form submission.",
+    });
   }
 
   let user = {
@@ -22,7 +25,7 @@ const handleRegister = (req, res, db, bcrypt, saltRounds) => {
   };
 
   // const hash = bcrypt.hashSync(password, saltRounds);
-  bcrypt.hash(password, saltRounds, (err, hash) => {
+  bcrypt.hash(password, saltRounds, (error, hash) => {
     return db
       .transaction((trx) => {
         trx
@@ -52,24 +55,32 @@ const handleRegister = (req, res, db, bcrypt, saltRounds) => {
                 // console.log("insert login data:", data);
                 user.hash = data[0].hash;
                 console.log("res: inserted user:", user);
-                res.json(user);
+                res.status(201).json(user);
               });
           })
           .then(() => {
             console.log("trx commit");
             trx.commit();
           })
-          .catch((err) => {
-            // doesn't seem to get here...
-            console.log("trx rollback. err:", err);
+          .catch((error) => {
+            // Something weird has to happen to get here...
+            console.log("trx rollback. error:", error);
             trx.rollback();
-            res.status(400).json("unable to register");
+            return res.status(400).json({
+              success: false,
+              status: "Unable to register",
+              err: error,
+            });
           });
       })
-      .catch((err) => {
-        // doesn't seem to get here...
-        console.log("trx err:", err);
-        res.status(400).json("unable to register");
+      .catch((error) => {
+        // Something weird has to happen to get here...
+        console.log("trx error:", error);
+        return res.status(400).json({
+          success: false,
+          status: "Unable to register",
+          err: error,
+        });
       });
   });
 };
