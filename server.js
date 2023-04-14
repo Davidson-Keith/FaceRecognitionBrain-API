@@ -7,9 +7,7 @@
 '/imageURL' - POST: run Clarifai model
 */
 
-require('dotenv').config()
-// console.log(process.env) // remove this after you've confirmed it is working
-
+require('dotenv-safe').config();
 const express = require("express");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
@@ -29,13 +27,13 @@ const port = process.env.PORT || 3000;
 // app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// app.use(cors());
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-  optionSuccessStatus: 200,
-}
-app.use(cors(corsOptions))
+app.use(cors());
+// const corsOptions = {
+//   origin: '*',
+//   credentials: true,
+//   optionSuccessStatus: 200,
+// }
+// app.use(cors(corsOptions))
 
 app.listen(port, () => {
   console.log(`app is running on port ${port}`);
