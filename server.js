@@ -1,10 +1,11 @@
 /*
-'/' - GET: log full db contents
-'/signin' - POST: (post to hide password via https). success/fail
-'/register' - POST: create user
-'/user/:userid' - GET: get user
-'/updateEntriesCount' - PUT: update user entries count
-'/imageURL' - POST: run Clarifai model
+URL                     Method  Notes
+'/'                     GET     Log full db contents
+'/signin'               POST    (Post to hide password via https). Success/fail
+'/register'             POST    Create user
+'/user/:userid'         GET     Get user
+'/updateEntriesCount'   PUT     Update user entries count
+'/imageURL'             POST    Run Clarifai model
 */
 
 require('dotenv-safe').config({
