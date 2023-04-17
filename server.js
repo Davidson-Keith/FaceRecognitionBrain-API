@@ -7,7 +7,10 @@
 '/imageURL' - POST: run Clarifai model
 */
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({
+  allowEmptyValues: true
+});
+
 const express = require("express");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
