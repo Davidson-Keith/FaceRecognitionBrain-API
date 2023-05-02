@@ -1,4 +1,4 @@
-# facerecognitionbrain
+# FaceRecognitionBrain-Api
 
 ### This project is from the Udemy course: <br>
 
