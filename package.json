@@ -1,7 +1,7 @@
 {
   "name": "facerecognitionbrain-api",
   "version": "1.0.0",
-  "homepage": "https://Davidson-Keith.github.io/robofriends",
+  "homepage": "https://Davidson-Keith.github.io/FaceRecognitionBrain",
   "engines": {
     "node": "18.x"
   },

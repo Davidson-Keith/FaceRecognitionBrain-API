@@ -29,13 +29,8 @@ There is no support for uploading an image, the image must be supplied as a URL 
 
 ## Tech
 
-#### Front-end
-
 React.js  
 Tachyons
-
-#### Back-end
-
 Node.js  
 PostgreSQL  
 express.js  
