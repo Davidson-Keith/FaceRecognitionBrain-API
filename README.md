@@ -30,7 +30,7 @@ There is no support for uploading an image, the image must be supplied as a URL 
 ## Tech
 
 React.js  
-Tachyons
+Tachyons  
 Node.js  
 PostgreSQL  
 express.js  
