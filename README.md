@@ -7,13 +7,18 @@ https://www.udemy.com/course/the-complete-web-developer-zero-to-mastery
 
 It is a project working along with the course.<br>
 
-facerecognitionbrain-api is the backend API and server for
-the [facerecognitionbrain](https://github.com/Davidson-Keith/FaceRecognitionBrain) front-end repo.
+This facerecognitionbrain-api is the backend API and server for the
+[facerecognitionbrain](https://github.com/Davidson-Keith/FaceRecognitionBrain) front-end repo.
 
-See it running [here](https://Davidson-Keith.github.io/FaceRecognitionBrain/). The front-end is running on Github Pages,
-and the back-end and database servers are running on Heroku. Heroku, incidentally, hosts the database on AWS.
+### To see it running:<br>
 
-## Outstanding Issues
+https://Davidson-Keith.github.io/FaceRecognitionBrain/
+
+The front-end is running on Github Pages.<br>
+The back-end and database servers are running on Heroku. <br>
+Heroku, incidentally, hosts the database on AWS.
+
+## Outstanding Issues TODO
 
 The course did not include any validation of forms. Neither validation of complete and correctly formatted values, nor
 presentation of an error message for an invalid login.
@@ -24,8 +29,13 @@ There is no support for uploading an image, the image must be supplied as a URL 
 
 ## Tech
 
+#### Front-end
+
 React.js  
-Tachyons  
+Tachyons
+
+#### Back-end
+
 Node.js  
 PostgreSQL  
 express.js  
