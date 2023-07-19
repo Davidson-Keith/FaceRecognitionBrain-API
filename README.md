@@ -8,9 +8,9 @@ https://www.udemy.com/course/the-complete-web-developer-zero-to-mastery
 It is a project working along with the course.<br>
 
 facerecognitionbrain-api is the backend API and server for
-the [facerecognitionbrain](https://github.com/surfingsanta/FaceRecognitionBrain) front-end repo.
+the [facerecognitionbrain](https://github.com/Davidson-Keith/FaceRecognitionBrain) front-end repo.
 
-See it running [here](https://surfingsanta.github.io/FaceRecognitionBrain/). The front-end is running on Github Pages,
+See it running [here](https://Davidson-Keith.github.io/FaceRecognitionBrain/). The front-end is running on Github Pages,
 and the back-end and database servers are running on Heroku. Heroku, incidentally, hosts the database on AWS.
 
 ## Outstanding Issues
